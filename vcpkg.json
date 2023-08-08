@@ -1,0 +1,15 @@
+{
+  "name": "bakapowerarmorstorage",
+  "version-string": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/shad0wshayd3/BakaPowerArmorStorage",
+  "license": "MIT",
+  "dependencies": [
+    "autotoml",
+    "boost-stl-interfaces",
+    "fmt",
+    "rsm-mmio",
+    "spdlog",
+    "xbyak"
+  ]
+}
