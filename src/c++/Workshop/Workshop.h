@@ -482,16 +482,15 @@ namespace Workshop
 							Object,
 							true))
 					{
-						IVirtualMachine->DispatchMethodCall(
-							Handle,
-							"BakaPowerArmorStoragePlacedScript"sv,
-							"Unregister"sv,
-							nullptr);
 						IVirtualMachine->GetObjectBindPolicy()
 							.UnbindObject(Object);
+
+						return true;
 					}
 				}
 			}
+
+			return false;
 		}
 
 		virtual RE::BSEventNotifyControl ProcessEvent(const RE::MenuOpenCloseEvent& a_event, RE::BSTEventSource<RE::MenuOpenCloseEvent>* a_source) override
