@@ -227,7 +227,7 @@ namespace Workshop
 					}
 
 					if (a_this->type != RE::ExtraStartingWorldOrCell::TYPE
-						|| a_compare.type != RE::ExtraStartingWorldOrCell::TYPE)
+					    || a_compare.type != RE::ExtraStartingWorldOrCell::TYPE)
 					{
 						return true;
 					}
