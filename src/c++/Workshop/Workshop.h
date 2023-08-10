@@ -399,12 +399,6 @@ namespace Workshop
 					1,
 					nullptr,
 					RE::ITEM_REMOVE_REASON::kNone);
-
-				RE::SendHUDMessage::ShowHUDMessage(
-					"Power Armor Chassis Added.",
-					nullptr,
-					true,
-					true);
 				PlayerCharacter->PlayPickUpSound(token, true, false);
 
 				a_refr->Disable();

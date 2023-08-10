@@ -30,7 +30,15 @@ namespace Papyrus
 
 		void ShowNotification(std::monostate, std::int32_t a_time)
 		{
-			if (a_time == 0)
+			if (a_time < 0)
+			{
+				RE::SendHUDMessage::ShowHUDMessage(
+					"Power Armor Chassis Added.",
+					nullptr,
+					true,
+					true);
+			}
+			else if (a_time == 0)
 			{
 				RE::SendHUDMessage::ShowHUDMessage(
 					"Power Armor has been recalled to your inventory.",
