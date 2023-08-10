@@ -729,6 +729,7 @@ namespace Workshop
 
 		static RE::BSFixedString GetOverrideName(RE::TESObjectREFR* a_refr)
 		{
+			std::string name;
 			std::int32_t count{ 0 }, health{ 0 };
 			if (a_refr->inventoryList)
 			{
@@ -744,6 +745,16 @@ namespace Workshop
 					{
 						case RE::ENUM_FORM_ID::kARMO:
 							count++;
+							if (iter.object)
+							{
+								if (auto armo = iter.object->As<RE::TESObjectARMO>())
+								{
+									if (armo->attachParents.HasKeyword(Forms::ap_PowerArmor_BodyMod))
+									{
+										name = Forms::PANameScheme::Get(armo);
+									}
+								}
+							}
 							break;
 
 						case RE::ENUM_FORM_ID::kAMMO:
@@ -769,6 +780,13 @@ namespace Workshop
 			std::stringstream stream;
 			stream << "Power Armor Chassis"sv;
 
+			if (!name.empty())
+			{
+				stream << " ["sv
+					   << name
+					   << "]"sv;
+			}
+
 			if (count > 0)
 			{
 				stream << " ["sv
@@ -776,12 +794,12 @@ namespace Workshop
 					   << "pc]"sv;
 			}
 
-			if (health > 0)
+			/*if (health > 0)
 			{
 				stream << " ["sv
 					   << health
 					   << "%]"sv;
-			}
+			}*/
 
 			auto result = RE::BSFixedString{ stream.str() };
 			return result;

@@ -41,6 +41,9 @@ namespace
 			case F4SE::MessagingInterface::kGameLoaded:
 				Workshop::PlacementMode::ApplyPerk();
 				break;
+			case F4SE::MessagingInterface::kGameDataReady:
+				Forms::InstallDataReady();
+				break;
 			default:
 				break;
 		}
