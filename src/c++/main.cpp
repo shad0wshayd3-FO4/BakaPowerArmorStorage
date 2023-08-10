@@ -1,4 +1,5 @@
 #include "Forms/Forms.h"
+#include "MCM/MCM.h"
 #include "Scripts/Papyrus.h"
 #include "Workshop/Workshop.h"
 
@@ -43,6 +44,7 @@ namespace
 				break;
 			case F4SE::MessagingInterface::kGameDataReady:
 				Forms::InstallDataReady();
+				MCM::Settings::Update();
 				break;
 			default:
 				break;

@@ -72,7 +72,7 @@ namespace Forms
 
 			if (bActive)
 			{
-				logger::info("Loaded from: {:s}", a_path.string());
+				logger::info("Loaded from: {:s}"sv, a_path.string());
 			}
 
 			ini_file.Reset();

@@ -14,3 +14,6 @@ bool Function RemoveScript(ObjectReference akPAFrame) Native Global
 
 { Display a notification showing how much time remains for a placed frame before recall }
 Function ShowNotification(int aiTimeRemaining) Native Global
+
+{ Update values from MCM settings files. }
+Function UpdateSettings() Native Global

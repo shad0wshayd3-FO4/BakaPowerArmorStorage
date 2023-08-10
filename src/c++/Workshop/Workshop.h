@@ -1,5 +1,7 @@
 #pragma once
 
+#include "MCM/MCM.h"
+
 namespace Workshop
 {
 	class PlacementMode :
@@ -611,7 +613,10 @@ namespace Workshop
 							RE::PlayerCharacter::GetSingleton());
 					}
 
-					AttachScript(m_frameRefr.get());
+					if (MCM::Settings::General::bAutoAutoReturn)
+					{
+						AttachScript(m_frameRefr.get());
+					}
 				}
 
 				m_tokenRefr->SetDelete(true);
@@ -697,10 +702,17 @@ namespace Workshop
 				{
 					if (auto UI = RE::UI::GetSingleton())
 					{
-						if (UI->GetMenuOpen("PipboyMenu"))
+						if (UI->GetMenuOpen<RE::PipboyMenu>())
 						{
 							RE::UIMessageQueue::GetSingleton()->AddMessage(
-								"PipboyMenu",
+								"PipboyMenu"sv,
+								RE::UI_MESSAGE_TYPE::kHide);
+						}
+
+						if (UI->GetMenuOpen<RE::ContainerMenu>())
+						{
+							RE::UIMessageQueue::GetSingleton()->AddMessage(
+								"ContainerMenu"sv,
 								RE::UI_MESSAGE_TYPE::kHide);
 						}
 					}
@@ -778,7 +790,7 @@ namespace Workshop
 			}
 
 			std::stringstream stream;
-			stream << "Power Armor Chassis"sv;
+			stream << MCM::Settings::Formatting::sPAChassis;
 
 			if (!name.empty())
 			{

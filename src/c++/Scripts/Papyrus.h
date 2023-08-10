@@ -1,5 +1,6 @@
 #pragma once
 
+#include "MCM/MCM.h"
 #include "Workshop/Workshop.h"
 
 namespace Papyrus
@@ -33,7 +34,7 @@ namespace Papyrus
 			if (a_time < 0)
 			{
 				RE::SendHUDMessage::ShowHUDMessage(
-					"Power Armor Chassis Added.",
+					MCM::Settings::Formatting::sPAAdded.c_str(),
 					nullptr,
 					true,
 					true);
@@ -41,20 +42,25 @@ namespace Papyrus
 			else if (a_time == 0)
 			{
 				RE::SendHUDMessage::ShowHUDMessage(
-					"Power Armor has been recalled to your inventory.",
+					MCM::Settings::Formatting::sPARecall.c_str(),
 					nullptr,
 					false,
 					true);
 			}
 			else
 			{
-				auto msg = fmt::format("Power Armor will be recalled in {:d} seconds.", a_time);
+				auto msg = fmt::format(MCM::Settings::Formatting::sPARecallTimer, a_time);
 				RE::SendHUDMessage::ShowHUDMessage(
 					msg.c_str(),
 					nullptr,
 					false,
 					true);
 			}
+		}
+
+		void UpdateSettings(std::monostate)
+		{
+			MCM::Settings::Update();
 		}
 	}
 
@@ -66,6 +72,7 @@ namespace Papyrus
 		a_VM->BindNativeMethod(BakaPowerArmorStorage::SCRIPT_NAME, "AttachScript", BakaPowerArmorStorage::AttachScript, true);
 		a_VM->BindNativeMethod(BakaPowerArmorStorage::SCRIPT_NAME, "RemoveScript", BakaPowerArmorStorage::RemoveScript, true);
 		a_VM->BindNativeMethod(BakaPowerArmorStorage::SCRIPT_NAME, "ShowNotification", BakaPowerArmorStorage::ShowNotification, true);
+		a_VM->BindNativeMethod(BakaPowerArmorStorage::SCRIPT_NAME, "UpdateSettings", BakaPowerArmorStorage::UpdateSettings, true);
 
 		return true;
 	}
