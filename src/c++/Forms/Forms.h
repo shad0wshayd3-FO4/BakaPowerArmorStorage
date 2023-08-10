@@ -74,7 +74,7 @@ namespace Forms
 			{
 				logger::info("Loaded from: {:s}", a_path.string());
 			}
-			
+
 			ini_file.Reset();
 		}
 
