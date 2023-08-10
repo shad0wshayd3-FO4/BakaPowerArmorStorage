@@ -399,18 +399,13 @@ namespace Workshop
 					1,
 					nullptr,
 					RE::ITEM_REMOVE_REASON::kNone);
-				PlayerCharacter->PlayPickUpSound(token, true, false);
 
-				if (auto MESG = Forms::PAFrameMessage_DO->GetForm<RE::BGSMessage>())
-				{
-					RE::BSFixedString message;
-					MESG->GetConvertedDescription(message);
-					RE::SendHUDMessage::ShowHUDMessage(
-						message.c_str(),
-						nullptr,
-						true,
-						true);
-				}
+				RE::SendHUDMessage::ShowHUDMessage(
+					"Power Armor Chassis Added.",
+					nullptr,
+					true,
+					true);
+				PlayerCharacter->PlayPickUpSound(token, true, false);
 
 				a_refr->Disable();
 				return true;
@@ -457,6 +452,36 @@ namespace Workshop
 						a_refr->Disable();
 
 						Start();
+						return true;
+					}
+				}
+			}
+
+			return false;
+		}
+
+		static bool AttachScript(RE::TESObjectREFR* a_refr)
+		{
+			if (auto GameVM = RE::GameVM::GetSingleton())
+			{
+				if (auto IVirtualMachine = GameVM->GetVM())
+				{
+					auto Handle = IVirtualMachine->GetObjectHandlePolicy()
+					                  .GetHandleForObject(
+										  a_refr->formType.underlying(),
+										  a_refr);
+
+					RE::BSTSmartPointer<RE::BSScript::Object> Object;
+					if (IVirtualMachine->CreateObject("BakaPowerArmorStoragePlacedScript"sv, Object))
+					{
+						IVirtualMachine->GetObjectBindPolicy()
+							.BindObject(Object, Handle);
+						IVirtualMachine->DispatchMethodCall(
+							Handle,
+							"BakaPowerArmorStoragePlacedScript"sv,
+							"DoRegister"sv,
+							nullptr);
+
 						return true;
 					}
 				}
@@ -582,29 +607,6 @@ namespace Workshop
 					a_event.placedItem->SetWantsDelete(true);
 					a_event.placedItem->Disable();
 
-					if (auto GameVM = RE::GameVM::GetSingleton())
-					{
-						if (auto IVirtualMachine = GameVM->GetVM())
-						{
-							auto Handle = IVirtualMachine->GetObjectHandlePolicy()
-							                  .GetHandleForObject(
-												  m_frameRefr->formType.underlying(),
-												  m_frameRefr.get());
-
-							RE::BSTSmartPointer<RE::BSScript::Object> Object;
-							if (IVirtualMachine->CreateObject("BakaPowerArmorStoragePlacedScript", Object))
-							{
-								IVirtualMachine->GetObjectBindPolicy()
-									.BindObject(Object, Handle);
-								IVirtualMachine->DispatchMethodCall(
-									Handle,
-									"BakaPowerArmorStoragePlacedScript"sv,
-									"DoRegister",
-									nullptr);
-							}
-						}
-					}
-
 					m_frameRefr->formFlags |= 0x8000000;
 					m_frameRefr->Enable(false);
 
@@ -614,6 +616,8 @@ namespace Workshop
 							m_frameRefr.get(),
 							RE::PlayerCharacter::GetSingleton());
 					}
+
+					AttachScript(m_frameRefr.get());
 				}
 
 				m_tokenRefr->SetDelete(true);
