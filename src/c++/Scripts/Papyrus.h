@@ -49,7 +49,7 @@ namespace Papyrus
 			}
 			else
 			{
-				auto msg = fmt::format(MCM::Settings::Formatting::sPARecallTimer, a_time);
+				auto msg = fmt::format(fmt::runtime(MCM::Settings::Formatting::sPARecallTimer), a_time);
 				RE::SendHUDMessage::ShowHUDMessage(
 					msg.c_str(),
 					nullptr,
