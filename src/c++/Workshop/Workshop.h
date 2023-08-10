@@ -374,7 +374,9 @@ namespace Workshop
 					return false;
 				}
 
+				auto name = GetOverrideName(a_refr);
 				auto extra = RE::BSTSmartPointer(new RE::ExtraDataList());
+				extra->SetOverrideName(name.c_str());
 				extra->SetStartingWorldOrCell(a_refr);
 
 				auto PlayerCharacter = RE::PlayerCharacter::GetSingleton();
@@ -725,6 +727,66 @@ namespace Workshop
 		static bool IsActive()
 		{
 			return GetSingleton()->m_isActive;
+		}
+
+		static RE::BSFixedString GetOverrideName(RE::TESObjectREFR* a_refr)
+		{
+			std::int32_t count{ 0 }, health{ 0 };
+			if (a_refr->inventoryList)
+			{
+				const RE::BSAutoReadLock lock{ a_refr->inventoryList->rwLock };
+				for (auto& iter : a_refr->inventoryList->data)
+				{
+					if (!iter.object)
+					{
+						continue;
+					}
+
+					switch (iter.object->formType.get())
+					{
+						case RE::ENUM_FORM_ID::kARMO:
+							count++;
+							break;
+
+						case RE::ENUM_FORM_ID::kAMMO:
+							if (iter.stackData && iter.stackData->extra)
+							{
+								if (auto ExtraHealth = iter.stackData->extra->GetByType<RE::ExtraHealth>())
+								{
+									health = static_cast<std::int32_t>(ExtraHealth->health * 100.0f);
+								}
+								else
+								{
+									health = 100;
+								}
+							}
+							break;
+
+						default:
+							break;
+					}
+				}
+			}
+
+			std::stringstream stream;
+			stream << "Power Armor Chassis"sv;
+
+			if (count > 0)
+			{
+				stream << " ["sv
+					   << count
+					   << "pc]"sv;
+			}
+
+			if (health > 0)
+			{
+				stream << " ["sv
+					   << health
+					   << "%]"sv;
+			}
+
+			auto result = RE::BSFixedString{ stream.str() };
+			return result;
 		}
 
 		RE::ObjectRefHandle m_workshop;
