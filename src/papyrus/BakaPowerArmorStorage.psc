@@ -17,3 +17,9 @@ Function ShowNotification(int aiTimeRemaining) Native Global
 
 { Update values from MCM settings files. }
 Function UpdateSettings() Native Global
+
+{ Stupid workaround for MCM }
+int Function GetKeyCode() Native Global
+
+{ Stupid workaround for MCM }
+Function FunctionStub() Native Global

@@ -20,6 +20,12 @@ namespace MCM
 			inline static std::string sPARecallTimer;
 		};
 
+		class Runtime
+		{
+		public:
+			inline static std::int32_t iKeyCode;
+		};
+
 		static void Update()
 		{
 			if (m_FirstRun)
@@ -32,6 +38,8 @@ namespace MCM
 			m_ini_user.LoadFile("Data/MCM/Settings/BakaPowerArmorStorage.ini");
 
 			GetModSettingBool("General", "bAutoAutoReturn", General::bAutoAutoReturn);
+
+			HandleKeybinds();
 
 			m_ini_base.Reset();
 			m_ini_user.Reset();
@@ -85,6 +93,32 @@ namespace MCM
 					FetchTranslation(BSScaleformTranslator, L"$BakaPAS_Message_PARecall", Formatting::sPARecall);
 					FetchTranslation(BSScaleformTranslator, L"$BakaPAS_Message_PARecallTimer", Formatting::sPARecallTimer);
 				}
+			}
+		}
+
+		static void HandleKeybinds()
+		{
+			try
+			{
+				std::ifstream fstream{ "Data/MCM/Settings/Keybinds.json" };
+				nlohmann::json data =
+					nlohmann::json::parse(fstream);
+				fstream.close();
+
+				for (auto& iter : data["keybinds"sv])
+				{
+					if (iter["id"sv] == "ModifierKey"
+					    && iter["modName"sv] == "BakaPowerArmorStorage")
+					{
+						Runtime::iKeyCode = iter["keycode"sv];
+						break;
+					}
+				}
+			}
+			catch (std::exception& a_exception)
+			{
+				Runtime::iKeyCode = 0;
+				logger::debug("{:s}"sv, a_exception.what());
 			}
 		}
 

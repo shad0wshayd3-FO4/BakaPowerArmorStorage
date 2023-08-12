@@ -62,6 +62,16 @@ namespace Papyrus
 		{
 			MCM::Settings::Update();
 		}
+
+		std::int32_t GetKeyCode(std::monostate)
+		{
+			return MCM::Settings::Runtime::iKeyCode;
+		}
+
+		void FunctionStub(std::monostate)
+		{
+			return;
+		}
 	}
 
 	bool RegisterFunctions(RE::BSScript::IVirtualMachine* a_VM)
@@ -73,6 +83,8 @@ namespace Papyrus
 		a_VM->BindNativeMethod(BakaPowerArmorStorage::SCRIPT_NAME, "RemoveScript", BakaPowerArmorStorage::RemoveScript, true);
 		a_VM->BindNativeMethod(BakaPowerArmorStorage::SCRIPT_NAME, "ShowNotification", BakaPowerArmorStorage::ShowNotification, true);
 		a_VM->BindNativeMethod(BakaPowerArmorStorage::SCRIPT_NAME, "UpdateSettings", BakaPowerArmorStorage::UpdateSettings, true);
+		a_VM->BindNativeMethod(BakaPowerArmorStorage::SCRIPT_NAME, "GetKeyCode", BakaPowerArmorStorage::GetKeyCode, true);
+		a_VM->BindNativeMethod(BakaPowerArmorStorage::SCRIPT_NAME, "FunctionStub", BakaPowerArmorStorage::FunctionStub, true);
 
 		return true;
 	}
