@@ -790,7 +790,7 @@ namespace Workshop
 			}
 
 			std::stringstream stream;
-			stream << MCM::Settings::Formatting::sPAChassis;
+			stream << MCM::Settings::Formatting::sPAChassis.data();
 
 			if (!name.empty())
 			{
