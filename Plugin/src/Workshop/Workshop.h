@@ -73,7 +73,7 @@ namespace Workshop
 			}
 
 		private:
-			template<std::uint64_t ID, std::ptrdiff_t OFF>
+			template <std::uint64_t ID, std::ptrdiff_t OFF>
 			class hkCanNavigate
 			{
 			public:
@@ -93,7 +93,7 @@ namespace Workshop
 				inline static REL::Relocation<decltype(&CanNavigate)> _CanNavigate;
 			};
 
-			template<std::uint64_t ID, std::ptrdiff_t OFF>
+			template <std::uint64_t ID, std::ptrdiff_t OFF>
 			class hkIsReferenceWithinBuildableArea
 			{
 			public:
@@ -125,7 +125,7 @@ namespace Workshop
 				inline static REL::Relocation<decltype(&IsReferenceWithinBuildableArea)> _IsReferenceWithinBuildableArea;
 			};
 
-			template<std::uint64_t ID, std::ptrdiff_t OFF>
+			template <std::uint64_t ID, std::ptrdiff_t OFF>
 			class hkPlayMenuSound
 			{
 			public:
@@ -161,7 +161,7 @@ namespace Workshop
 				inline static REL::Relocation<decltype(&PlayMenuSound)> _PlayMenuSound;
 			};
 
-			template<std::uint64_t ID, std::ptrdiff_t OFF>
+			template <std::uint64_t ID, std::ptrdiff_t OFF>
 			class hkShouldShowTagForSearch
 			{
 			public:
@@ -182,7 +182,7 @@ namespace Workshop
 				inline static REL::Relocation<decltype(&ShouldShowTagForSearch)> _ShouldShowTagForSearch;
 			};
 
-			template<std::uint64_t ID, std::ptrdiff_t OFF>
+			template <std::uint64_t ID, std::ptrdiff_t OFF>
 			class hkUpdateRequirements
 			{
 			public:
@@ -228,16 +228,12 @@ namespace Workshop
 						return true;
 					}
 
-					if (a_this->type != RE::ExtraStartingWorldOrCell::TYPE
-					    || a_compare.type != RE::ExtraStartingWorldOrCell::TYPE)
+					if (a_this->type != RE::ExtraStartingWorldOrCell::TYPE || a_compare.type != RE::ExtraStartingWorldOrCell::TYPE)
 					{
 						return true;
 					}
 
-					if (a_this->startingWorldOrCell->GetFormType() == RE::ENUM_FORM_ID::kCELL
-					    || a_this->startingWorldOrCell->GetFormType() == RE::ENUM_FORM_ID::kWRLD
-					    || a_compare.startingWorldOrCell->GetFormType() == RE::ENUM_FORM_ID::kCELL
-					    || a_compare.startingWorldOrCell->GetFormType() == RE::ENUM_FORM_ID::kWRLD)
+					if (a_this->startingWorldOrCell->GetFormType() == RE::ENUM_FORM_ID::kCELL || a_this->startingWorldOrCell->GetFormType() == RE::ENUM_FORM_ID::kWRLD || a_compare.startingWorldOrCell->GetFormType() == RE::ENUM_FORM_ID::kCELL || a_compare.startingWorldOrCell->GetFormType() == RE::ENUM_FORM_ID::kWRLD)
 					{
 						return false;
 					}
@@ -262,14 +258,7 @@ namespace Workshop
 				{
 					if (a_event && PlacementMode::IsActive())
 					{
-						if (a_event->QUserEvent() == "XButton"
-						    || a_event->QUserEvent() == "YButton"
-						    || a_event->QUserEvent() == "LShoulder"
-						    || a_event->QUserEvent() == "RShoulder"
-						    || a_event->QUserEvent() == "LTrigger"
-						    || a_event->QUserEvent() == "RTrigger"
-						    || a_event->QUserEvent() == "Sprint"
-						    || a_event->QUserEvent() == "Jump")
+						if (a_event->QUserEvent() == "XButton" || a_event->QUserEvent() == "YButton" || a_event->QUserEvent() == "LShoulder" || a_event->QUserEvent() == "RShoulder" || a_event->QUserEvent() == "LTrigger" || a_event->QUserEvent() == "RTrigger" || a_event->QUserEvent() == "Sprint" || a_event->QUserEvent() == "Jump")
 						{
 							return;
 						}
@@ -308,39 +297,39 @@ namespace Workshop
 
 					switch (a_extra->type.get())
 					{
-						// case RE::EXTRA_DATA_TYPE::kPersistentCell:
-						// case RE::EXTRA_DATA_TYPE::kKeywords:
-						// case RE::EXTRA_DATA_TYPE::kStartingPosition:
-						// case RE::EXTRA_DATA_TYPE::kReferenceHandle:
-						// case RE::EXTRA_DATA_TYPE::kOwnership:
-						// case RE::EXTRA_DATA_TYPE::kGlobal:
-						// case RE::EXTRA_DATA_TYPE::kRank:
-						case RE::EXTRA_DATA_TYPE::kHealth:
-						// case RE::EXTRA_DATA_TYPE::kTimeLeft:
-						case RE::EXTRA_DATA_TYPE::kCharge:
-						// case RE::EXTRA_DATA_TYPE::kLevelItem:
-						// case RE::EXTRA_DATA_TYPE::kScale:
-						case RE::EXTRA_DATA_TYPE::kObjectInstance:
-						case RE::EXTRA_DATA_TYPE::kCannotWear:
-						case RE::EXTRA_DATA_TYPE::kPoison:
-						case RE::EXTRA_DATA_TYPE::kBoundArmor:
-						case RE::EXTRA_DATA_TYPE::kStartingWorldOrCell:
-						// case RE::EXTRA_DATA_TYPE::kFavorite:
-						// case RE::EXTRA_DATA_TYPE::kAliasInstanceArray:
-						// case RE::EXTRA_DATA_TYPE::kPromotedRef:
-						// case RE::EXTRA_DATA_TYPE::kOutfitItem:
-						// case RE::EXTRA_DATA_TYPE::kFromAlias:
-						// case RE::EXTRA_DATA_TYPE::kShouldWear:
-						case RE::EXTRA_DATA_TYPE::kTextDisplayData:
-						case RE::EXTRA_DATA_TYPE::kEnchantment:
-						// case RE::EXTRA_DATA_TYPE::kUniqueID:
-						// case RE::EXTRA_DATA_TYPE::kFlags:
-						case RE::EXTRA_DATA_TYPE::kInstanceData:
-						case RE::EXTRA_DATA_TYPE::kModRank:
-							return true;
+					// case RE::EXTRA_DATA_TYPE::kPersistentCell:
+					// case RE::EXTRA_DATA_TYPE::kKeywords:
+					// case RE::EXTRA_DATA_TYPE::kStartingPosition:
+					// case RE::EXTRA_DATA_TYPE::kReferenceHandle:
+					// case RE::EXTRA_DATA_TYPE::kOwnership:
+					// case RE::EXTRA_DATA_TYPE::kGlobal:
+					// case RE::EXTRA_DATA_TYPE::kRank:
+					case RE::EXTRA_DATA_TYPE::kHealth:
+					// case RE::EXTRA_DATA_TYPE::kTimeLeft:
+					case RE::EXTRA_DATA_TYPE::kCharge:
+					// case RE::EXTRA_DATA_TYPE::kLevelItem:
+					// case RE::EXTRA_DATA_TYPE::kScale:
+					case RE::EXTRA_DATA_TYPE::kObjectInstance:
+					case RE::EXTRA_DATA_TYPE::kCannotWear:
+					case RE::EXTRA_DATA_TYPE::kPoison:
+					case RE::EXTRA_DATA_TYPE::kBoundArmor:
+					case RE::EXTRA_DATA_TYPE::kStartingWorldOrCell:
+					// case RE::EXTRA_DATA_TYPE::kFavorite:
+					// case RE::EXTRA_DATA_TYPE::kAliasInstanceArray:
+					// case RE::EXTRA_DATA_TYPE::kPromotedRef:
+					// case RE::EXTRA_DATA_TYPE::kOutfitItem:
+					// case RE::EXTRA_DATA_TYPE::kFromAlias:
+					// case RE::EXTRA_DATA_TYPE::kShouldWear:
+					case RE::EXTRA_DATA_TYPE::kTextDisplayData:
+					case RE::EXTRA_DATA_TYPE::kEnchantment:
+					// case RE::EXTRA_DATA_TYPE::kUniqueID:
+					// case RE::EXTRA_DATA_TYPE::kFlags:
+					case RE::EXTRA_DATA_TYPE::kInstanceData:
+					case RE::EXTRA_DATA_TYPE::kModRank:
+						return true;
 
-						default:
-							return false;
+					default:
+						return false;
 					}
 				}
 			};
@@ -430,9 +419,7 @@ namespace Workshop
 				return false;
 			}
 
-			if (a_refr
-			    && a_refr->data.objectReference
-			    && a_refr->data.objectReference == token)
+			if (a_refr && a_refr->data.objectReference && a_refr->data.objectReference == token)
 			{
 				if (!a_refr->extraList)
 				{
@@ -755,36 +742,36 @@ namespace Workshop
 
 					switch (iter.object->formType.get())
 					{
-						case RE::ENUM_FORM_ID::kARMO:
-							count++;
-							if (iter.object)
+					case RE::ENUM_FORM_ID::kARMO:
+						count++;
+						if (iter.object)
+						{
+							if (auto armo = iter.object->As<RE::TESObjectARMO>())
 							{
-								if (auto armo = iter.object->As<RE::TESObjectARMO>())
+								if (armo->attachParents.HasKeyword(Forms::ap_PowerArmor_BodyMod))
 								{
-									if (armo->attachParents.HasKeyword(Forms::ap_PowerArmor_BodyMod))
-									{
-										name = Forms::PANameScheme::Get(armo);
-									}
+									name = Forms::PANameScheme::Get(armo);
 								}
 							}
-							break;
+						}
+						break;
 
-						case RE::ENUM_FORM_ID::kAMMO:
-							if (iter.stackData && iter.stackData->extra)
+					case RE::ENUM_FORM_ID::kAMMO:
+						if (iter.stackData && iter.stackData->extra)
+						{
+							if (auto ExtraHealth = iter.stackData->extra->GetByType<RE::ExtraHealth>())
 							{
-								if (auto ExtraHealth = iter.stackData->extra->GetByType<RE::ExtraHealth>())
-								{
-									health = static_cast<std::int32_t>(ExtraHealth->health * 100.0f);
-								}
-								else
-								{
-									health = 100;
-								}
+								health = static_cast<std::int32_t>(ExtraHealth->health * 100.0f);
 							}
-							break;
+							else
+							{
+								health = 100;
+							}
+						}
+						break;
 
-						default:
-							break;
+					default:
+						break;
 					}
 				}
 			}

@@ -107,8 +107,7 @@ namespace MCM
 
 				for (auto& iter : data["keybinds"sv])
 				{
-					if (iter["id"sv] == "ModifierKey"
-					    && iter["modName"sv] == "BakaPowerArmorStorage")
+					if (iter["id"sv] == "ModifierKey" && iter["modName"sv] == "BakaPowerArmorStorage")
 					{
 						Runtime::iKeyCode = iter["keycode"sv];
 						break;
