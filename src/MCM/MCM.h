@@ -8,7 +8,7 @@ namespace MCM
 		class General
 		{
 		public:
-			inline static bool bAutoAutoReturn{ true };
+			inline static REX::INI::Bool bAutoAutoReturn{ "General", "bAutoAutoReturn", true };
 		};
 
 		class Formatting
@@ -26,49 +26,25 @@ namespace MCM
 			inline static std::int32_t iKeyCode;
 		};
 
-		static void Update()
+		static void Update(bool a_firstRun)
 		{
-			if (m_FirstRun)
+			if (a_firstRun)
 			{
 				GetTranslationStrings();
-				m_FirstRun = false;
 			}
 
-			m_ini_base.LoadFile("Data/MCM/Config/BakaPowerArmorStorage/settings.ini");
-			m_ini_user.LoadFile("Data/MCM/Settings/BakaPowerArmorStorage.ini");
-
-			GetModSettingBool("General", "bAutoAutoReturn", General::bAutoAutoReturn);
+			const auto ini = REX::INI::SettingStore::GetSingleton();
+			ini->Init(
+				"Data/MCM/Config/BakaPowerArmorStorage/settings.ini",
+				"Data/MCM/Settings/BakaPowerArmorStorage.ini");
+			ini->Load();
 
 			HandleKeybinds();
-
-			m_ini_base.Reset();
-			m_ini_user.Reset();
 		}
 
 		inline static bool m_FirstRun{ true };
 
 	private:
-		static void GetModSettingChar(const std::string& a_section, const std::string& a_setting, std::string_view& a_value)
-		{
-			auto base = m_ini_base.GetValue(a_section.c_str(), a_setting.c_str(), a_value.data());
-			auto user = m_ini_user.GetValue(a_section.c_str(), a_setting.c_str(), base);
-			a_value = user;
-		}
-
-		static void GetModSettingBool(const std::string& a_section, const std::string& a_setting, bool& a_value)
-		{
-			auto base = m_ini_base.GetBoolValue(a_section.c_str(), a_setting.c_str(), a_value);
-			auto user = m_ini_user.GetBoolValue(a_section.c_str(), a_setting.c_str(), base);
-			a_value = user;
-		}
-
-		static void GetModSettingLong(const std::string& a_section, const std::string& a_setting, std::int32_t& a_value)
-		{
-			auto base = m_ini_base.GetLongValue(a_section.c_str(), a_setting.c_str(), a_value);
-			auto user = m_ini_user.GetLongValue(a_section.c_str(), a_setting.c_str(), base);
-			a_value = static_cast<std::int32_t>(user);
-		}
-
 		static void GetTranslationStrings()
 		{
 			if (auto BSScaleformManager = RE::BSScaleformManager::GetSingleton(); BSScaleformManager && BSScaleformManager->loader)
@@ -98,6 +74,7 @@ namespace MCM
 
 		static void HandleKeybinds()
 		{
+			/*
 			try
 			{
 				std::ifstream fstream{ "Data/MCM/Settings/Keybinds.json" };
@@ -119,9 +96,7 @@ namespace MCM
 				Runtime::iKeyCode = 0;
 				logger::debug("{:s}"sv, a_exception.what());
 			}
+			*/
 		}
-
-		inline static CSimpleIniA m_ini_base{ true };
-		inline static CSimpleIniA m_ini_user{ true };
 	};
 }

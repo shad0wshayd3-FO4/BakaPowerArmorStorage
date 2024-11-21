@@ -265,7 +265,7 @@ namespace Workshop
 
 						if (a_event->QUserEvent() == "Cancel")
 						{
-							auto ButtonEvent = stl::unrestricted_cast<RE::ButtonEvent*>(a_event);
+							auto ButtonEvent = RE::stl::unrestricted_cast<RE::ButtonEvent*>(a_event);
 							ButtonEvent->strUserEvent = "CloseMenu";
 							return _HandleEvent(a_this, ButtonEvent);
 						}
@@ -283,7 +283,7 @@ namespace Workshop
 				static void Install()
 				{
 					static REL::Relocation<std::uintptr_t> target{ REL::ID(179412) };
-					stl::asm_replace(target.address(), 0x1C7, reinterpret_cast<std::uintptr_t>(UIQualifier));
+					target.replace_func(0x1C7, UIQualifier);
 				}
 
 			private:

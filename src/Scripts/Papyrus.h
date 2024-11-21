@@ -49,7 +49,7 @@ namespace Papyrus
 			}
 			else
 			{
-				auto msg = fmt::format(fmt::runtime(MCM::Settings::Formatting::sPARecallTimer.data()), a_time);
+				auto msg = std::vformat(MCM::Settings::Formatting::sPARecallTimer, std::make_format_args(a_time));
 				RE::SendHUDMessage::ShowHUDMessage(
 					msg.c_str(),
 					nullptr,
@@ -60,7 +60,7 @@ namespace Papyrus
 
 		void UpdateSettings(std::monostate)
 		{
-			MCM::Settings::Update();
+			MCM::Settings::Update(false);
 		}
 
 		std::int32_t GetKeyCode(std::monostate)

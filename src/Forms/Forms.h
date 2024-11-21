@@ -72,7 +72,7 @@ namespace Forms
 
 			if (bActive)
 			{
-				logger::info("Loaded from: {:s}"sv, a_path.string());
+				F4SE::log::info("Loaded from: {:s}"sv, a_path.string());
 			}
 
 			ini_file.Reset();
@@ -117,15 +117,15 @@ namespace Forms
 					"PAFramePerk_DO",
 					RE::ENUM_FORM_ID::kPERK);
 
-			logger::debug("Injected DefaultObjects."sv);
+			F4SE::log::debug("Injected DefaultObjects."sv);
 			return 1;
 		}
 	}
 
 	void Install()
 	{
-		REL::Relocation<std::uintptr_t> targetDFOB{ REL::ID(599538) };
-		stl::asm_replace(targetDFOB.address(), 0x2C, reinterpret_cast<std::uintptr_t>(hkDefaultObject));
+		REL::Relocation<std::uintptr_t> target{ REL::ID(599538) };
+		target.replace_func(0x2C, hkDefaultObject);
 	}
 
 	void InstallDataReady()
