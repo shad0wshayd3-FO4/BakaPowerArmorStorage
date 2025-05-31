@@ -33,28 +33,18 @@ namespace Papyrus
 		{
 			if (a_time < 0)
 			{
-				RE::SendHUDMessage::ShowHUDMessage(
-					MCM::Settings::Formatting::sPAAdded.c_str(),
-					nullptr,
-					true,
-					true);
+				auto str = MCM::Settings::Formatting::sPAAdded.c_str();
+				RE::SendHUDMessage::ShowHUDMessage(str, nullptr, true, true);
 			}
 			else if (a_time == 0)
 			{
-				RE::SendHUDMessage::ShowHUDMessage(
-					MCM::Settings::Formatting::sPARecall.c_str(),
-					nullptr,
-					false,
-					true);
+				auto str = MCM::Settings::Formatting::sPARecall.c_str();
+				RE::SendHUDMessage::ShowHUDMessage(str, nullptr, false, true);
 			}
 			else
 			{
-				auto msg = std::vformat(MCM::Settings::Formatting::sPARecallTimer, std::make_format_args(a_time));
-				RE::SendHUDMessage::ShowHUDMessage(
-					msg.c_str(),
-					nullptr,
-					false,
-					true);
+				auto str = std::vformat(MCM::Settings::Formatting::sPARecallTimer, std::make_format_args(a_time));
+				RE::SendHUDMessage::ShowHUDMessage(str.c_str(), nullptr, false, true);
 			}
 		}
 
@@ -84,7 +74,7 @@ namespace Papyrus
 		a_VM->BindNativeMethod(BakaPowerArmorStorage::SCRIPT_NAME, "ShowNotification", BakaPowerArmorStorage::ShowNotification, true);
 		a_VM->BindNativeMethod(BakaPowerArmorStorage::SCRIPT_NAME, "UpdateSettings", BakaPowerArmorStorage::UpdateSettings, true);
 		a_VM->BindNativeMethod(BakaPowerArmorStorage::SCRIPT_NAME, "GetKeyCode", BakaPowerArmorStorage::GetKeyCode, true);
-		a_VM->BindNativeMethod(BakaPowerArmorStorage::SCRIPT_NAME, "FunctionStub", BakaPowerArmorStorage::FunctionStub, true);
+		// a_VM->BindNativeMethod(BakaPowerArmorStorage::SCRIPT_NAME, "FunctionStub", BakaPowerArmorStorage::FunctionStub, true);
 
 		return true;
 	}

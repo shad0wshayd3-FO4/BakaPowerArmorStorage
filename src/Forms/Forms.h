@@ -78,15 +78,14 @@ namespace Forms
 			ini_file.Reset();
 		}
 
-		inline static CSimpleIniA ini_file{ true };
+		inline static CSimpleIniA                                  ini_file{ true };
 		inline static RE::BSTHashMap<RE::BGSKeyword*, std::string> map;
 	};
 
 	RE::BGSDefaultObject* PAFrameWorkshop_DO{ nullptr };
 	RE::BGSDefaultObject* PAFrameToken_DO{ nullptr };
 	RE::BGSDefaultObject* PAFramePerk_DO{ nullptr };
-
-	RE::BGSKeyword* ap_PowerArmor_BodyMod{ nullptr };
+	RE::BGSKeyword*       ap_PowerArmor_BodyMod{ nullptr };
 
 	namespace
 	{
@@ -117,7 +116,7 @@ namespace Forms
 					"PAFramePerk_DO",
 					RE::ENUM_FORM_ID::kPERK);
 
-			F4SE::log::debug("Injected DefaultObjects."sv);
+			REX::DEBUG("Injected DefaultObjects."sv);
 			return 1;
 		}
 	}

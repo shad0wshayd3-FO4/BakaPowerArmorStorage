@@ -22,7 +22,8 @@ add_rules("mode.debug", "mode.releasedbg")
 add_rules("plugin.vsxmake.autoupdate")
 
 -- set config
-set_config("rex_json", true)
+set_config("commonlib_ini", true)
+set_config("commonlib_json", true)
 
 -- targets
 target("BakaPowerArmorStorage")

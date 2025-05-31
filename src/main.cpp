@@ -11,10 +11,10 @@ namespace
 		{
 		case F4SE::MessagingInterface::kPostLoad:
 			Forms::Install();
-			Workshop::PlacementMode::Hooks::Install();
+			Workshop::PlacementMode::Install();
 			break;
 		case F4SE::MessagingInterface::kGameLoaded:
-			Workshop::PlacementMode::ApplyPerk();
+			Workshop::PlacementMode::AddPerkToPlayer();
 			break;
 		case F4SE::MessagingInterface::kGameDataReady:
 			Forms::InstallDataReady();
@@ -28,11 +28,8 @@ namespace
 
 F4SEPluginLoad(const F4SE::LoadInterface* a_F4SE)
 {
-	F4SE::Init(a_F4SE);
-
-	F4SE::AllocTrampoline(1u << 10);
+	F4SE::Init(a_F4SE, { .trampoline = true, .trampolineSize = 512 });
 	F4SE::GetMessagingInterface()->RegisterListener(MessageCallback);
 	F4SE::GetPapyrusInterface()->Register(Papyrus::RegisterFunctions);
-
 	return true;
 }

@@ -47,12 +47,10 @@ namespace MCM
 	private:
 		static void GetTranslationStrings()
 		{
-			if (auto BSScaleformManager = RE::BSScaleformManager::GetSingleton(); BSScaleformManager && BSScaleformManager->loader)
+			if (auto BSScaleformManager = RE::BSScaleformManager::GetSingleton();
+				BSScaleformManager && BSScaleformManager->loader)
 			{
-				if (auto BSScaleformTranslator =
-				        static_cast<RE::BSScaleformTranslator*>(
-							BSScaleformManager->loader->GetStateAddRef(
-								RE::Scaleform::GFx::State::StateType::kTranslator)))
+				if (auto BSScaleformTranslator = static_cast<RE::BSScaleformTranslator*>(BSScaleformManager->loader->GetStateAddRef(Scaleform::GFx::State::StateType::kTranslator)))
 				{
 					auto FetchTranslation = [](RE::BSScaleformTranslator* a_trns, const wchar_t* a_key, std::string& a_output)
 					{

@@ -5,6 +5,7 @@
 namespace Workshop
 {
 	class PlacementMode :
+		public REX ::Singleton<PlacementMode>,
 		public RE::BSTEventSink<RE::MenuOpenCloseEvent>,
 		public RE::BSTEventSink<RE::Workshop::ItemPlacedEvent>,
 		public RE::BSTEventSink<RE::Workshop::WorkshopModeEvent>
@@ -12,102 +13,29 @@ namespace Workshop
 	public:
 		class Hooks
 		{
-		public:
-			static void Install()
-			{
-				// Disable selection in UI
-				hkCanNavigate<119865, 0x37A>::Install();
-				hkCanNavigate<119865, 0x3EA>::Install();
-				hkCanNavigate<119865, 0x4C5>::Install();
-				hkCanNavigate<119865, 0x768>::Install();
-				hkCanNavigate<985073, 0x0C>::Install();
-				hkCanNavigate<1130413, 0x0C>::Install();
-
-				// Prevent Workshops marked as deleted as being valid
-				hkIsReferenceWithinBuildableArea<2562, 0x156>::Install();
-				hkIsReferenceWithinBuildableArea<978467, 0x07E>::Install();
-				hkIsReferenceWithinBuildableArea<90862, 0x039>::Install();
-				hkIsReferenceWithinBuildableArea<939377, 0x090>::Install();
-				hkIsReferenceWithinBuildableArea<552874, 0x024>::Install();
-				hkIsReferenceWithinBuildableArea<525394, 0x017>::Install();
-				hkIsReferenceWithinBuildableArea<311311, 0x0A6>::Install();
-				hkIsReferenceWithinBuildableArea<566990, 0x05C>::Install();
-				hkIsReferenceWithinBuildableArea<286947, 0x047>::Install();
-				hkIsReferenceWithinBuildableArea<1371490, 0x091>::Install();
-				hkIsReferenceWithinBuildableArea<931840, 0x165>::Install();
-				hkIsReferenceWithinBuildableArea<1515428, 0x036>::Install();
-
-				// Disable Workshop Startup/End sounds
-				hkPlayMenuSound<598489, 0x1195>::Install();
-				hkPlayMenuSound<98443, 0x01B5>::Install();
-
-				// Prevent tagging for search in FreeBuild mode
-				hkShouldShowTagForSearch<119865, 0xEBB>::Install();
-				hkShouldShowTagForSearch<1089189, 0x574>::Install();
-
-				// Prevent a stupid textbox from showing up for a split second after placing an item
-				hkUpdateRequirements<598489, 0x1144>::Install();
-				hkUpdateRequirements<1280212, 0x1F0>::Install();
-				hkUpdateRequirements<119865, 0x05C5>::Install();
-				hkUpdateRequirements<119865, 0x0868>::Install();
-				hkUpdateRequirements<119865, 0x0A16>::Install();
-				hkUpdateRequirements<119865, 0x0A42>::Install();
-				hkUpdateRequirements<119865, 0x0A65>::Install();
-				hkUpdateRequirements<119865, 0x0A88>::Install();
-				hkUpdateRequirements<119865, 0x0C64>::Install();
-				hkUpdateRequirements<119865, 0x0CD4>::Install();
-				hkUpdateRequirements<119865, 0x0F53>::Install();
-				hkUpdateRequirements<119865, 0x10FD>::Install();
-				hkUpdateRequirements<119865, 0x1181>::Install();
-				hkUpdateRequirements<119865, 0x13F6>::Install();
-				hkUpdateRequirements<119865, 0x1764>::Install();
-
-				// Prevent stored frames from stacking
-				hkCompareImpl::Install();
-
-				// Redirect Cancel input, block other buttons
-				hkHandleEvent::Install();
-
-				// Enable ExtraStartingWorldOrCell as a stacking condition
-				hkUIQualifier::Install();
-			}
-
 		private:
-			template <std::uint64_t ID, std::ptrdiff_t OFF>
+			// Disable selection in UI
 			class hkCanNavigate
 			{
-			public:
-				static void Install()
-				{
-					static REL::Relocation<std::uintptr_t> target{ REL::ID(ID), OFF };
-					auto& trampoline = F4SE::GetTrampoline();
-					_CanNavigate = trampoline.write_call<5>(target.address(), CanNavigate);
-				}
-
 			private:
 				static bool CanNavigate()
 				{
-					return PlacementMode::IsActive() ? false : _CanNavigate();
+					return PlacementMode::IsActive() ? false : _Hook0();
 				}
 
-				inline static REL::Relocation<decltype(&CanNavigate)> _CanNavigate;
+				inline static REL::Hook _Hook0{ REL::ID(119865), 0x37A, CanNavigate };
+				inline static REL::Hook _Hook1{ REL::ID(119865), 0x3EA, CanNavigate };
+				inline static REL::Hook _Hook2{ REL::ID(119865), 0x4C5, CanNavigate };
+				inline static REL::Hook _Hook3{ REL::ID(119865), 0x768, CanNavigate };
+				inline static REL::Hook _Hook4{ REL::ID(985073), 0x0C, CanNavigate };
+				inline static REL::Hook _Hook5{ REL::ID(1130413), 0x0C, CanNavigate };
 			};
 
-			template <std::uint64_t ID, std::ptrdiff_t OFF>
+			// Prevent Workshops marked as deleted as being valid
 			class hkIsReferenceWithinBuildableArea
 			{
-			public:
-				static void Install()
-				{
-					static REL::Relocation<std::uintptr_t> target{ REL::ID(ID), OFF };
-					auto& trampoline = F4SE::GetTrampoline();
-					_IsReferenceWithinBuildableArea = trampoline.write_call<5>(target.address(), IsReferenceWithinBuildableArea);
-				}
-
 			private:
-				static bool IsReferenceWithinBuildableArea(
-					const RE::TESObjectREFR& a_workshop,
-					const RE::TESObjectREFR& a_refr)
+				static bool IsReferenceWithinBuildableArea(const RE::TESObjectREFR& a_workshop, const RE::TESObjectREFR& a_refr)
 				{
 					if (PlacementMode::IsActive())
 					{
@@ -119,31 +47,33 @@ namespace Workshop
 						return false;
 					}
 
-					return _IsReferenceWithinBuildableArea(a_workshop, a_refr);
+					return _Hook0(a_workshop, a_refr);
 				}
 
-				inline static REL::Relocation<decltype(&IsReferenceWithinBuildableArea)> _IsReferenceWithinBuildableArea;
+				inline static REL::Hook _Hook0{ REL::ID(2562), 0x156, IsReferenceWithinBuildableArea };
+				inline static REL::Hook _Hook1{ REL::ID(978467), 0x07E, IsReferenceWithinBuildableArea };
+				inline static REL::Hook _Hook2{ REL::ID(90862), 0x039, IsReferenceWithinBuildableArea };
+				inline static REL::Hook _Hook3{ REL::ID(939377), 0x090, IsReferenceWithinBuildableArea };
+				inline static REL::Hook _Hook4{ REL::ID(552874), 0x024, IsReferenceWithinBuildableArea };
+				inline static REL::Hook _Hook5{ REL::ID(525394), 0x017, IsReferenceWithinBuildableArea };
+				inline static REL::Hook _Hook6{ REL::ID(311311), 0x0A6, IsReferenceWithinBuildableArea };
+				inline static REL::Hook _Hook7{ REL::ID(566990), 0x05C, IsReferenceWithinBuildableArea };
+				inline static REL::Hook _Hook8{ REL::ID(286947), 0x047, IsReferenceWithinBuildableArea };
+				inline static REL::Hook _Hook9{ REL::ID(1371490), 0x091, IsReferenceWithinBuildableArea };
+				inline static REL::Hook _HookA{ REL::ID(931840), 0x165, IsReferenceWithinBuildableArea };
+				inline static REL::Hook _HookB{ REL::ID(1515428), 0x036, IsReferenceWithinBuildableArea };
 			};
 
-			template <std::uint64_t ID, std::ptrdiff_t OFF>
+			// Disable Workshop Startup/End sounds
 			class hkPlayMenuSound
 			{
-			public:
-				static void Install()
-				{
-					static REL::Relocation<std::uintptr_t> target{ REL::ID(ID), OFF };
-					auto& trampoline = F4SE::GetTrampoline();
-					_PlayMenuSound = trampoline.write_call<5>(target.address(), PlayMenuSound);
-				}
-
 			private:
-				static bool PlayMenuSound(
-					const char* a_soundName)
+				static bool PlayMenuSound(const char* a_soundName)
 				{
 					if (PlacementMode::IsActive())
 					{
 						PlacementMode::GetSingleton()->m_hasSound = true;
-						return _PlayMenuSound(nullptr);
+						return _Hook0(nullptr);
 					}
 
 					if (PlacementMode::GetSingleton()->m_hasSound)
@@ -151,144 +81,130 @@ namespace Workshop
 						if (_stricmp(a_soundName, "UIWorkshopModeExit") == 0)
 						{
 							PlacementMode::GetSingleton()->m_hasSound = false;
-							return _PlayMenuSound(nullptr);
+							return _Hook0(nullptr);
 						}
 					}
 
-					return _PlayMenuSound(a_soundName);
+					return _Hook0(a_soundName);
 				}
 
-				inline static REL::Relocation<decltype(&PlayMenuSound)> _PlayMenuSound;
+				inline static REL::Hook _Hook0{ REL::ID(598489), 0x1195, PlayMenuSound };
+				inline static REL::Hook _Hook1{ REL::ID(98443), 0x01B5, PlayMenuSound };
 			};
 
-			template <std::uint64_t ID, std::ptrdiff_t OFF>
+			// Prevent tagging for search in FreeBuild mode
 			class hkShouldShowTagForSearch
 			{
-			public:
-				static void Install()
-				{
-					static REL::Relocation<std::uintptr_t> target{ REL::ID(ID), OFF };
-					auto& trampoline = F4SE::GetTrampoline();
-					_ShouldShowTagForSearch = trampoline.write_call<5>(target.address(), ShouldShowTagForSearch);
-				}
-
 			private:
-				static std::uint64_t ShouldShowTagForSearch(
-					RE::WorkshopMenu* a_this)
+				static std::uint64_t ShouldShowTagForSearch(RE::WorkshopMenu* a_this)
 				{
-					return PlacementMode::IsActive() ? 0 : _ShouldShowTagForSearch(a_this);
+					return PlacementMode::IsActive() ? 0 : _Hook0(a_this);
 				}
 
-				inline static REL::Relocation<decltype(&ShouldShowTagForSearch)> _ShouldShowTagForSearch;
+				inline static REL::Hook _Hook0{ REL::ID(119865), 0xEBB, ShouldShowTagForSearch };
+				inline static REL::Hook _Hook1{ REL::ID(1089189), 0x574, ShouldShowTagForSearch };
 			};
 
-			template <std::uint64_t ID, std::ptrdiff_t OFF>
+			// Prevent a stupid textbox from showing up for a split second after placing an item
 			class hkUpdateRequirements
 			{
-			public:
-				static void Install()
-				{
-					static REL::Relocation<std::uintptr_t> target{ REL::ID(ID), OFF };
-					auto& trampoline = F4SE::GetTrampoline();
-					_UpdateRequirements = trampoline.write_call<5>(target.address(), UpdateRequirements);
-				}
-
 			private:
-				static void UpdateRequirements(
-					RE::WorkshopMenu* a_this,
-					bool a_stringingWire)
+				static void UpdateRequirements(RE::WorkshopMenu* a_this, bool a_stringingWire)
 				{
 					if (PlacementMode::IsActive())
 					{
 						return;
 					}
 
-					_UpdateRequirements(a_this, a_stringingWire);
+					_Hook0(a_this, a_stringingWire);
 				}
 
-				inline static REL::Relocation<decltype(&UpdateRequirements)> _UpdateRequirements;
+				inline static REL::Hook _Hook0{ REL::ID(598489), 0x1144, UpdateRequirements };
+				inline static REL::Hook _Hook1{ REL::ID(1280212), 0x1F0, UpdateRequirements };
+				inline static REL::Hook _Hook2{ REL::ID(119865), 0x05C5, UpdateRequirements };
+				inline static REL::Hook _Hook3{ REL::ID(119865), 0x0868, UpdateRequirements };
+				inline static REL::Hook _Hook4{ REL::ID(119865), 0x0A16, UpdateRequirements };
+				inline static REL::Hook _Hook5{ REL::ID(119865), 0x0A42, UpdateRequirements };
+				inline static REL::Hook _Hook6{ REL::ID(119865), 0x0A65, UpdateRequirements };
+				inline static REL::Hook _Hook7{ REL::ID(119865), 0x0A88, UpdateRequirements };
+				inline static REL::Hook _Hook8{ REL::ID(119865), 0x0C64, UpdateRequirements };
+				inline static REL::Hook _Hook9{ REL::ID(119865), 0x0CD4, UpdateRequirements };
+				inline static REL::Hook _HookA{ REL::ID(119865), 0x0F53, UpdateRequirements };
+				inline static REL::Hook _HookB{ REL::ID(119865), 0x10FD, UpdateRequirements };
+				inline static REL::Hook _HookC{ REL::ID(119865), 0x1181, UpdateRequirements };
+				inline static REL::Hook _HookD{ REL::ID(119865), 0x13F6, UpdateRequirements };
+				inline static REL::Hook _HookE{ REL::ID(119865), 0x1764, UpdateRequirements };
 			};
 
+			// Prevent stored frames from stacking
 			class hkCompareImpl
 			{
-			public:
-				static void Install()
-				{
-					static REL::Relocation<std::uintptr_t> target{ RE::ExtraStartingWorldOrCell::VTABLE[0] };
-					target.write_vfunc(0x01, CompareImpl);
-				}
-
 			private:
-				static bool CompareImpl(
-					RE::ExtraStartingWorldOrCell* a_this,
-					const RE::ExtraStartingWorldOrCell& a_compare)
+				static bool CompareImpl(RE::ExtraStartingWorldOrCell* a_this, const RE::ExtraStartingWorldOrCell& a_compare)
 				{
 					if (!a_this)
 					{
 						return true;
 					}
 
-					if (a_this->type != RE::ExtraStartingWorldOrCell::TYPE || a_compare.type != RE::ExtraStartingWorldOrCell::TYPE)
+					if (a_this->type != RE::ExtraStartingWorldOrCell::TYPE ||
+						a_compare.type != RE::ExtraStartingWorldOrCell::TYPE)
 					{
 						return true;
 					}
 
-					if (a_this->startingWorldOrCell->GetFormType() == RE::ENUM_FORM_ID::kCELL || a_this->startingWorldOrCell->GetFormType() == RE::ENUM_FORM_ID::kWRLD || a_compare.startingWorldOrCell->GetFormType() == RE::ENUM_FORM_ID::kCELL || a_compare.startingWorldOrCell->GetFormType() == RE::ENUM_FORM_ID::kWRLD)
+					if (a_this->startingWorldOrCell->GetFormType() == RE::ENUM_FORM_ID::kCELL ||
+						a_this->startingWorldOrCell->GetFormType() == RE::ENUM_FORM_ID::kWRLD ||
+						a_compare.startingWorldOrCell->GetFormType() == RE::ENUM_FORM_ID::kCELL ||
+						a_compare.startingWorldOrCell->GetFormType() == RE::ENUM_FORM_ID::kWRLD)
 					{
 						return false;
 					}
 
 					return a_this->startingWorldOrCell != a_compare.startingWorldOrCell;
 				}
+
+				inline static REL::HookVFT _CompareImpl{ RE::ExtraStartingWorldOrCell::VTABLE[0], 0x01, CompareImpl };
 			};
 
+			// Redirect Cancel input, block other buttons
 			class hkHandleEvent
 			{
-			public:
-				static void Install()
-				{
-					static REL::Relocation<std::uintptr_t> target{ RE::WorkshopMenu::VTABLE[1] };
-					_HandleEvent = target.write_vfunc(0x08, HandleEvent);
-				}
-
 			private:
-				static void HandleEvent(
-					RE::BSInputEventUser* a_this,
-					const RE::ButtonEvent* a_event)
+				static void HandleEvent(RE::BSInputEventUser* a_this, RE::ButtonEvent* a_event)
 				{
 					if (a_event && PlacementMode::IsActive())
 					{
-						if (a_event->QUserEvent() == "XButton" || a_event->QUserEvent() == "YButton" || a_event->QUserEvent() == "LShoulder" || a_event->QUserEvent() == "RShoulder" || a_event->QUserEvent() == "LTrigger" || a_event->QUserEvent() == "RTrigger" || a_event->QUserEvent() == "Sprint" || a_event->QUserEvent() == "Jump")
+						if (a_event->QUserEvent() == "XButton" ||
+							a_event->QUserEvent() == "YButton" ||
+							a_event->QUserEvent() == "LShoulder" ||
+							a_event->QUserEvent() == "RShoulder" ||
+							a_event->QUserEvent() == "LTrigger" ||
+							a_event->QUserEvent() == "RTrigger" ||
+							a_event->QUserEvent() == "Sprint" ||
+							a_event->QUserEvent() == "Jump")
 						{
 							return;
 						}
 
 						if (a_event->QUserEvent() == "Cancel")
 						{
-							auto ButtonEvent = RE::stl::unrestricted_cast<RE::ButtonEvent*>(a_event);
-							ButtonEvent->strUserEvent = "CloseMenu";
-							return _HandleEvent(a_this, ButtonEvent);
+							a_event->strUserEvent = "CloseMenu";
+							return _HandleEvent(a_this, a_event);
 						}
 					}
 
 					_HandleEvent(a_this, a_event);
 				}
 
-				inline static REL::Relocation<decltype(&HandleEvent)> _HandleEvent;
+				inline static REL::HookVFT _HandleEvent{ RE::WorkshopMenu::VTABLE[1], 0x08, HandleEvent };
 			};
 
+			// Enable ExtraStartingWorldOrCell as a stacking condition
 			class hkUIQualifier
 			{
-			public:
-				static void Install()
-				{
-					static REL::Relocation<std::uintptr_t> target{ REL::ID(179412) };
-					target.replace_func(0x1C7, UIQualifier);
-				}
-
 			private:
-				static bool UIQualifier(
-					const RE::BSExtraData* a_extra)
+				static bool UIQualifier(const RE::BSExtraData* a_extra)
 				{
 					if (!a_extra)
 					{
@@ -332,28 +248,21 @@ namespace Workshop
 						return false;
 					}
 				}
+
+			public:
+				static void Install()
+				{
+					static REL::Relocation<std::uintptr_t> target{ REL::ID(179412) };
+					target.replace_func(0x1C7, UIQualifier);
+				}
 			};
+
+		public:
+			static void Install()
+			{
+				hkUIQualifier::Install();
+			}
 		};
-
-		[[nodiscard]] static PlacementMode* GetSingleton()
-		{
-			static PlacementMode singleton;
-			return std::addressof(singleton);
-		}
-
-		static void ApplyPerk()
-		{
-			auto PAPerk = Forms::PAFramePerk_DO->GetForm<RE::BGSPerk>();
-			if (!PAPerk)
-			{
-				return;
-			}
-
-			if (auto Player = RE::TESForm::GetFormByID(0x00000007)->As<RE::TESNPC>())
-			{
-				Player->AddPerk(PAPerk, 1);
-			}
-		}
 
 		static bool CreateToken(RE::TESObjectREFR* a_refr)
 		{
@@ -403,13 +312,9 @@ namespace Workshop
 		{
 			if (RE::PowerArmor::PlayerInPowerArmor())
 			{
-				const RE::PlayerCharacter::ScopedInventoryChangeMessageContext cmctx{ true, true };
+				const RE::PlayerCharacter::ScopedInventoryChangeMessageContext ctx{ true, true };
 				RE::PlayerCharacter::GetSingleton()->PickUpObject(a_refr, 1, false);
-				RE::SendHUDMessage::ShowHUDMessage(
-					sPADisallowed->GetString().data(),
-					nullptr,
-					true,
-					true);
+				RE::SendHUDMessage::ShowHUDMessage(sPADisallowed->GetString().data(), nullptr, true, true);
 				return false;
 			}
 
@@ -449,22 +354,12 @@ namespace Workshop
 			{
 				if (auto IVirtualMachine = GameVM->GetVM())
 				{
-					auto Handle = IVirtualMachine->GetObjectHandlePolicy()
-					                  .GetHandleForObject(
-										  a_refr->formType.underlying(),
-										  a_refr);
-
+					auto                                      Handle = IVirtualMachine->GetObjectHandlePolicy().GetHandleForObject(a_refr->formType.underlying(), a_refr);
 					RE::BSTSmartPointer<RE::BSScript::Object> Object;
 					if (IVirtualMachine->CreateObject("BakaPowerArmorStoragePlacedScript"sv, Object))
 					{
-						IVirtualMachine->GetObjectBindPolicy()
-							.BindObject(Object, Handle);
-						IVirtualMachine->DispatchMethodCall(
-							Handle,
-							"BakaPowerArmorStoragePlacedScript"sv,
-							"DoRegister"sv,
-							nullptr);
-
+						IVirtualMachine->GetObjectBindPolicy().BindObject(Object, Handle);
+						IVirtualMachine->DispatchMethodCall(Handle, "BakaPowerArmorStoragePlacedScript"sv, "DoRegister"sv, nullptr);
 						return true;
 					}
 				}
@@ -479,22 +374,11 @@ namespace Workshop
 			{
 				if (auto IVirtualMachine = GameVM->GetVM())
 				{
-					auto Handle = IVirtualMachine->GetObjectHandlePolicy()
-					                  .GetHandleForObject(
-										  a_refr->formType.underlying(),
-										  a_refr);
-
+					auto                                      Handle = IVirtualMachine->GetObjectHandlePolicy().GetHandleForObject(a_refr->formType.underlying(), a_refr);
 					RE::BSTSmartPointer<RE::BSScript::Object> Object;
-					if (IVirtualMachine->FindBoundObject(
-							Handle,
-							"BakaPowerArmorStoragePlacedScript",
-							true,
-							Object,
-							true))
+					if (IVirtualMachine->FindBoundObject(Handle, "BakaPowerArmorStoragePlacedScript", true, Object, true))
 					{
-						IVirtualMachine->GetObjectBindPolicy()
-							.UnbindObject(Object);
-
+						IVirtualMachine->GetObjectBindPolicy().UnbindObject(Object);
 						return true;
 					}
 				}
@@ -535,7 +419,7 @@ namespace Workshop
 							{
 								handle.get()->CreateInventoryList(nullptr);
 
-								const RE::BSAutoReadLock lockR{ m_frameRefr->inventoryList->rwLock };
+								const RE::BSAutoReadLock  lockR{ m_frameRefr->inventoryList->rwLock };
 								const RE::BSAutoWriteLock lockW{ handle.get()->inventoryList->rwLock };
 								for (auto& iter : m_frameRefr->inventoryList->data)
 								{
@@ -635,7 +519,7 @@ namespace Workshop
 
 				if (m_tokenRefr && !m_tokenRefr->GetDelete())
 				{
-					const RE::PlayerCharacter::ScopedInventoryChangeMessageContext cmctx{ true, true };
+					const RE::PlayerCharacter::ScopedInventoryChangeMessageContext ctx{ true, true };
 					RE::PlayerCharacter::GetSingleton()->AddObjectToContainer(
 						m_tokenRefr->data.objectReference,
 						m_tokenRefr->extraList,
@@ -654,6 +538,23 @@ namespace Workshop
 			}
 
 			return RE::BSEventNotifyControl::kContinue;
+		}
+
+	public:
+		static void Install()
+		{
+			Hooks::Install();
+		}
+
+		static void AddPerkToPlayer()
+		{
+			if (auto Player = RE::TESForm::GetFormByID(0x00000007)->As<RE::TESNPC>())
+			{
+				if (auto PowerArmorPerk = Forms::PAFramePerk_DO->GetForm<RE::BGSPerk>())
+				{
+					Player->AddPerk(PowerArmorPerk, 1);
+				}
+			}
 		}
 
 	private:
@@ -691,16 +592,12 @@ namespace Workshop
 					{
 						if (UI->GetMenuOpen<RE::PipboyMenu>())
 						{
-							RE::UIMessageQueue::GetSingleton()->AddMessage(
-								"PipboyMenu"sv,
-								RE::UI_MESSAGE_TYPE::kHide);
+							RE::UIMessageQueue::GetSingleton()->AddMessage("PipboyMenu"sv, RE::UI_MESSAGE_TYPE::kHide);
 						}
 
 						if (UI->GetMenuOpen<RE::ContainerMenu>())
 						{
-							RE::UIMessageQueue::GetSingleton()->AddMessage(
-								"ContainerMenu"sv,
-								RE::UI_MESSAGE_TYPE::kHide);
+							RE::UIMessageQueue::GetSingleton()->AddMessage("ContainerMenu"sv, RE::UI_MESSAGE_TYPE::kHide);
 						}
 					}
 
@@ -728,8 +625,8 @@ namespace Workshop
 
 		static RE::BSFixedString GetOverrideName(RE::TESObjectREFR* a_refr)
 		{
-			std::string name;
-			std::int32_t count{ 0 }, health{ 0 };
+			std::string  name;
+			std::int32_t count{ 0 };
 			if (a_refr->inventoryList)
 			{
 				const RE::BSAutoReadLock lock{ a_refr->inventoryList->rwLock };
@@ -756,20 +653,6 @@ namespace Workshop
 						}
 						break;
 
-					case RE::ENUM_FORM_ID::kAMMO:
-						if (iter.stackData && iter.stackData->extra)
-						{
-							if (auto ExtraHealth = iter.stackData->extra->GetByType<RE::ExtraHealth>())
-							{
-								health = static_cast<std::int32_t>(ExtraHealth->health * 100.0f);
-							}
-							else
-							{
-								health = 100;
-							}
-						}
-						break;
-
 					default:
 						break;
 					}
@@ -777,37 +660,25 @@ namespace Workshop
 			}
 
 			std::stringstream stream;
-			stream << MCM::Settings::Formatting::sPAChassis.data();
+			stream << MCM::Settings::Formatting::sPAChassis;
 
 			if (!name.empty())
 			{
-				stream << " ["sv
-					   << name
-					   << "]"sv;
+				stream << " ["sv << name << "]"sv;
 			}
 
 			if (count > 0)
 			{
-				stream << " ["sv
-					   << count
-					   << "pc]"sv;
+				stream << " ["sv << count << "pc]"sv;
 			}
 
-			/*if (health > 0)
-			{
-				stream << " ["sv
-					   << health
-					   << "%]"sv;
-			}*/
-
-			auto result = RE::BSFixedString{ stream.str() };
-			return result;
+			return stream.str();
 		}
 
-		RE::ObjectRefHandle m_workshop;
+		RE::ObjectRefHandle                                                         m_workshop;
 		RE::BSTSmartPointer<RE::TESObjectREFR, RE::BSTSmartPointerGamebryoRefCount> m_frameRefr;
 		RE::BSTSmartPointer<RE::TESObjectREFR, RE::BSTSmartPointerGamebryoRefCount> m_tokenRefr;
-		bool m_isActive{ false };
-		bool m_hasSound{ false };
+		bool                                                                        m_isActive{ false };
+		bool                                                                        m_hasSound{ false };
 	};
 }
