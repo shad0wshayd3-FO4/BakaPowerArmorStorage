@@ -23,12 +23,12 @@ namespace Workshop
 					return PlacementMode::IsActive() ? false : _Hook0();
 				}
 
-				inline static REL::Hook _Hook0{ REL::ID(119865), 0x37A, CanNavigate };
-				inline static REL::Hook _Hook1{ REL::ID(119865), 0x3EA, CanNavigate };
-				inline static REL::Hook _Hook2{ REL::ID(119865), 0x4C5, CanNavigate };
-				inline static REL::Hook _Hook3{ REL::ID(119865), 0x768, CanNavigate };
-				inline static REL::Hook _Hook4{ REL::ID(985073), 0x0C, CanNavigate };
-				inline static REL::Hook _Hook5{ REL::ID(1130413), 0x0C, CanNavigate };
+				inline static REL::Hook _Hook0{ REL::ID(2224981), 0x2FD, CanNavigate };
+				inline static REL::Hook _Hook1{ REL::ID(2224981), 0x396, CanNavigate };
+				inline static REL::Hook _Hook2{ REL::ID(2224981), 0x47F, CanNavigate };
+				inline static REL::Hook _Hook3{ REL::ID(2224981), 0x742, CanNavigate };
+				inline static REL::Hook _Hook4{ REL::ID(2224989), 0x00C, CanNavigate };
+				inline static REL::Hook _Hook5{ REL::ID(2224990), 0x00C, CanNavigate };
 			};
 
 			// Prevent Workshops marked as deleted as being valid
@@ -50,18 +50,16 @@ namespace Workshop
 					return _Hook0(a_workshop, a_refr);
 				}
 
-				inline static REL::Hook _Hook0{ REL::ID(2562), 0x156, IsReferenceWithinBuildableArea };
-				inline static REL::Hook _Hook1{ REL::ID(978467), 0x07E, IsReferenceWithinBuildableArea };
-				inline static REL::Hook _Hook2{ REL::ID(90862), 0x039, IsReferenceWithinBuildableArea };
-				inline static REL::Hook _Hook3{ REL::ID(939377), 0x090, IsReferenceWithinBuildableArea };
-				inline static REL::Hook _Hook4{ REL::ID(552874), 0x024, IsReferenceWithinBuildableArea };
-				inline static REL::Hook _Hook5{ REL::ID(525394), 0x017, IsReferenceWithinBuildableArea };
-				inline static REL::Hook _Hook6{ REL::ID(311311), 0x0A6, IsReferenceWithinBuildableArea };
-				inline static REL::Hook _Hook7{ REL::ID(566990), 0x05C, IsReferenceWithinBuildableArea };
-				inline static REL::Hook _Hook8{ REL::ID(286947), 0x047, IsReferenceWithinBuildableArea };
-				inline static REL::Hook _Hook9{ REL::ID(1371490), 0x091, IsReferenceWithinBuildableArea };
-				inline static REL::Hook _HookA{ REL::ID(931840), 0x165, IsReferenceWithinBuildableArea };
-				inline static REL::Hook _HookB{ REL::ID(1515428), 0x036, IsReferenceWithinBuildableArea };
+				inline static REL::Hook _Hook0{ REL::ID(2195119), 0x1CA, IsReferenceWithinBuildableArea };
+				inline static REL::Hook _Hook1{ REL::ID(2195129), 0x0D2, IsReferenceWithinBuildableArea };
+				inline static REL::Hook _Hook2{ REL::ID(2195191), 0x02A, IsReferenceWithinBuildableArea };
+				inline static REL::Hook _Hook3{ REL::ID(2195192), 0x14D, IsReferenceWithinBuildableArea };
+				inline static REL::Hook _Hook4{ REL::ID(2195266), 0x08F, IsReferenceWithinBuildableArea };
+				inline static REL::Hook _Hook5{ REL::ID(2195311), 0x075, IsReferenceWithinBuildableArea };
+				inline static REL::Hook _Hook6{ REL::ID(2195496), 0x085, IsReferenceWithinBuildableArea };
+				inline static REL::Hook _Hook7{ REL::ID(2195585), 0x116, IsReferenceWithinBuildableArea };
+				inline static REL::Hook _Hook8{ REL::ID(2225003), 0x277, IsReferenceWithinBuildableArea };
+				inline static REL::Hook _Hook9{ REL::ID(2253487), 0x036, IsReferenceWithinBuildableArea };
 			};
 
 			// Disable Workshop Startup/End sounds
@@ -88,8 +86,8 @@ namespace Workshop
 					return _Hook0(a_soundName);
 				}
 
-				inline static REL::Hook _Hook0{ REL::ID(598489), 0x1195, PlayMenuSound };
-				inline static REL::Hook _Hook1{ REL::ID(98443), 0x01B5, PlayMenuSound };
+				inline static REL::Hook _Hook0{ REL::ID(2224973), 0x10C3, PlayMenuSound };
+				inline static REL::Hook _Hook1{ REL::ID(2224974), 0x0160, PlayMenuSound };
 			};
 
 			// Prevent tagging for search in FreeBuild mode
@@ -101,8 +99,8 @@ namespace Workshop
 					return PlacementMode::IsActive() ? 0 : _Hook0(a_this);
 				}
 
-				inline static REL::Hook _Hook0{ REL::ID(119865), 0xEBB, ShouldShowTagForSearch };
-				inline static REL::Hook _Hook1{ REL::ID(1089189), 0x574, ShouldShowTagForSearch };
+				inline static REL::Hook _Hook0{ REL::ID(2195119), 0xEE6, ShouldShowTagForSearch };
+				inline static REL::Hook _Hook1{ REL::ID(2224992), 0x670, ShouldShowTagForSearch };
 			};
 
 			// Prevent a stupid textbox from showing up for a split second after placing an item
@@ -119,21 +117,21 @@ namespace Workshop
 					_Hook0(a_this, a_stringingWire);
 				}
 
-				inline static REL::Hook _Hook0{ REL::ID(598489), 0x1144, UpdateRequirements };
-				inline static REL::Hook _Hook1{ REL::ID(1280212), 0x1F0, UpdateRequirements };
-				inline static REL::Hook _Hook2{ REL::ID(119865), 0x05C5, UpdateRequirements };
-				inline static REL::Hook _Hook3{ REL::ID(119865), 0x0868, UpdateRequirements };
-				inline static REL::Hook _Hook4{ REL::ID(119865), 0x0A16, UpdateRequirements };
-				inline static REL::Hook _Hook5{ REL::ID(119865), 0x0A42, UpdateRequirements };
-				inline static REL::Hook _Hook6{ REL::ID(119865), 0x0A65, UpdateRequirements };
-				inline static REL::Hook _Hook7{ REL::ID(119865), 0x0A88, UpdateRequirements };
-				inline static REL::Hook _Hook8{ REL::ID(119865), 0x0C64, UpdateRequirements };
-				inline static REL::Hook _Hook9{ REL::ID(119865), 0x0CD4, UpdateRequirements };
-				inline static REL::Hook _HookA{ REL::ID(119865), 0x0F53, UpdateRequirements };
-				inline static REL::Hook _HookB{ REL::ID(119865), 0x10FD, UpdateRequirements };
-				inline static REL::Hook _HookC{ REL::ID(119865), 0x1181, UpdateRequirements };
-				inline static REL::Hook _HookD{ REL::ID(119865), 0x13F6, UpdateRequirements };
-				inline static REL::Hook _HookE{ REL::ID(119865), 0x1764, UpdateRequirements };
+				inline static REL::Hook _Hook0{ REL::ID(2224973), 0x1072, UpdateRequirements };
+				inline static REL::Hook _Hook1{ REL::ID(2224975), 0x01DE, UpdateRequirements };
+				inline static REL::Hook _Hook2{ REL::ID(2224981), 0x0590, UpdateRequirements };
+				inline static REL::Hook _Hook3{ REL::ID(2224981), 0x084D, UpdateRequirements };
+				inline static REL::Hook _Hook4{ REL::ID(2224981), 0x0A02, UpdateRequirements };
+				inline static REL::Hook _Hook5{ REL::ID(2224981), 0x0A2E, UpdateRequirements };
+				inline static REL::Hook _Hook6{ REL::ID(2224981), 0x0A51, UpdateRequirements };
+				inline static REL::Hook _Hook7{ REL::ID(2224981), 0x0A74, UpdateRequirements };
+				inline static REL::Hook _Hook8{ REL::ID(2224981), 0x0C7A, UpdateRequirements };
+				inline static REL::Hook _Hook9{ REL::ID(2224981), 0x0CEB, UpdateRequirements };
+				inline static REL::Hook _HookA{ REL::ID(2224981), 0x104B, UpdateRequirements };
+				inline static REL::Hook _HookB{ REL::ID(2224981), 0x120B, UpdateRequirements };
+				inline static REL::Hook _HookC{ REL::ID(2224981), 0x128F, UpdateRequirements };
+				inline static REL::Hook _HookD{ REL::ID(2224981), 0x1502, UpdateRequirements };
+				inline static REL::Hook _HookE{ REL::ID(2224981), 0x1853, UpdateRequirements };
 			};
 
 			// Prevent stored frames from stacking
@@ -252,8 +250,8 @@ namespace Workshop
 			public:
 				static void Install()
 				{
-					static REL::Relocation<std::uintptr_t> target{ REL::ID(179412) };
-					target.replace_func(0x1C7, UIQualifier);
+					static REL::Relocation<std::uintptr_t> target{ REL::ID(2190675) };
+					target.replace_func(0xEE, UIQualifier);
 				}
 			};
 
@@ -268,8 +266,7 @@ namespace Workshop
 		{
 			if (a_refr && a_refr->HasKeyword(RE::TESForm::GetFormByID<RE::BGSKeyword>(0x0003430B)))
 			{
-				auto token = Forms::PAFrameToken_DO->GetForm<RE::TESObjectARMO>();
-				if (!token)
+				if (!Forms::PAFrameToken)
 				{
 					return false;
 				}
@@ -294,12 +291,12 @@ namespace Workshop
 
 				const RE::PlayerCharacter::ScopedInventoryChangeMessageContext cmctx{ true, true };
 				PlayerCharacter->AddObjectToContainer(
-					token,
+					Forms::PAFrameToken,
 					extra,
 					1,
 					nullptr,
 					RE::ITEM_REMOVE_REASON::kNone);
-				PlayerCharacter->PlayPickUpSound(token, true, false);
+				PlayerCharacter->PlayPickUpSound(Forms::PAFrameToken, true, false);
 
 				a_refr->Disable();
 				return true;
@@ -318,13 +315,12 @@ namespace Workshop
 				return false;
 			}
 
-			auto token = Forms::PAFrameToken_DO->GetForm<RE::TESObjectARMO>();
-			if (!token)
+			if (!Forms::PAFrameToken)
 			{
 				return false;
 			}
 
-			if (a_refr && a_refr->data.objectReference && a_refr->data.objectReference == token)
+			if (a_refr && a_refr->data.objectReference && a_refr->data.objectReference == Forms::PAFrameToken)
 			{
 				if (!a_refr->extraList)
 				{
@@ -550,9 +546,9 @@ namespace Workshop
 		{
 			if (auto Player = RE::TESForm::GetFormByID(0x00000007)->As<RE::TESNPC>())
 			{
-				if (auto PowerArmorPerk = Forms::PAFramePerk_DO->GetForm<RE::BGSPerk>())
+				if (Forms::PAFramePerk)
 				{
-					Player->AddPerk(PowerArmorPerk, 1);
+					Player->AddPerk(Forms::PAFramePerk, 1);
 				}
 			}
 		}
@@ -583,10 +579,10 @@ namespace Workshop
 
 		static void Start()
 		{
-			if (auto workbench = Forms::PAFrameWorkshop_DO->GetForm<RE::TESObjectCONT>())
+			if (Forms::PAFrameWorkshop)
 			{
 				auto singleton = GetSingleton();
-				if (singleton->m_workshop = CreateWorkbench(workbench))
+				if (singleton->m_workshop = CreateWorkbench(Forms::PAFrameWorkshop))
 				{
 					if (auto UI = RE::UI::GetSingleton())
 					{

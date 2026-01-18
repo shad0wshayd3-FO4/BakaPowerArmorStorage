@@ -14,7 +14,6 @@ set_languages("c++23")
 set_warnings("allextra")
 
 -- set policies
-set_policy("build.optimization.lto", true)
 set_policy("package.requires_lock", true)
 
 -- add rules

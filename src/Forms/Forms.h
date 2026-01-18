@@ -48,6 +48,7 @@ namespace Forms
 
 		static void LoadSetting(std::filesystem::path& a_path)
 		{
+			/*
 			if (!std::filesystem::exists(a_path))
 			{
 				return;
@@ -76,60 +77,26 @@ namespace Forms
 			}
 
 			ini_file.Reset();
+			*/
 		}
 
-		inline static CSimpleIniA                                  ini_file{ true };
 		inline static RE::BSTHashMap<RE::BGSKeyword*, std::string> map;
 	};
 
-	RE::BGSDefaultObject* PAFrameWorkshop_DO{ nullptr };
-	RE::BGSDefaultObject* PAFrameToken_DO{ nullptr };
-	RE::BGSDefaultObject* PAFramePerk_DO{ nullptr };
-	RE::BGSKeyword*       ap_PowerArmor_BodyMod{ nullptr };
-
-	namespace
-	{
-		RE::BGSDefaultObject* WorkshopItemPlaceFailSound{ nullptr };
-
-		std::uint32_t hkDefaultObject()
-		{
-			// Initializer override
-			WorkshopItemPlaceFailSound =
-				RE::DefaultObjectFormFactory::Create(
-					"WorkshopItemPlaceFailSound",
-					"Default sound played when an item can not be placed.",
-					RE::ENUM_FORM_ID::kSNDR);
-
-			// Add new
-			PAFrameWorkshop_DO =
-				RE::DefaultObjectFormFactory::Create(
-					"PAFrameWorkshop_DO",
-					RE::ENUM_FORM_ID::kCONT);
-
-			PAFrameToken_DO =
-				RE::DefaultObjectFormFactory::Create(
-					"PAFrameToken_DO",
-					RE::ENUM_FORM_ID::kARMO);
-
-			PAFramePerk_DO =
-				RE::DefaultObjectFormFactory::Create(
-					"PAFramePerk_DO",
-					RE::ENUM_FORM_ID::kPERK);
-
-			REX::DEBUG("Injected DefaultObjects."sv);
-			return 1;
-		}
-	}
-
-	void Install()
-	{
-		REL::Relocation<std::uintptr_t> target{ REL::ID(599538) };
-		target.replace_func(0x2C, hkDefaultObject);
-	}
+	RE::TESObjectCONT* PAFrameWorkshop{ nullptr };
+	RE::TESObjectARMO* PAFrameToken{ nullptr };
+	RE::BGSPerk*       PAFramePerk{ nullptr };
+	RE::BGSKeyword*    ap_PowerArmor_BodyMod{ nullptr };
 
 	void InstallDataReady()
 	{
 		PANameScheme::Install();
+		if (auto TESDataHandler = RE::TESDataHandler::GetSingleton())
+		{
+			PAFrameToken = TESDataHandler->LookupForm<RE::TESObjectARMO>(0xC00, "BakaPowerArmorStorage.esm");
+			PAFrameWorkshop = TESDataHandler->LookupForm<RE::TESObjectCONT>(0xA00, "BakaPowerArmorStorage.esm");
+			PAFramePerk = TESDataHandler->LookupForm<RE::BGSPerk>(0xA02, "BakaPowerArmorStorage.esm");
+		}
 		ap_PowerArmor_BodyMod = RE::TESForm::GetFormByID<RE::BGSKeyword>(0x00055F8C);
 	}
 };
