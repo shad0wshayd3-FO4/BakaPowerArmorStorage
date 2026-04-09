@@ -23,7 +23,7 @@ jobs:
       - name: Setup xmake
         uses: xmake-io/github-action-setup-xmake@v1
         with:
-          xmake-version: latest
+          xmake-version: "3.x"
 
       - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1

@@ -5,7 +5,7 @@
 namespace Workshop
 {
 	class PlacementMode :
-		public REX ::Singleton<PlacementMode>,
+		public REX::TSingleton<PlacementMode>,
 		public RE::BSTEventSink<RE::MenuOpenCloseEvent>,
 		public RE::BSTEventSink<RE::Workshop::ItemPlacedEvent>,
 		public RE::BSTEventSink<RE::Workshop::WorkshopModeEvent>
@@ -404,12 +404,12 @@ namespace Workshop
 						menu->workshopMenuBase->Invoke("HideIconCard");
 						menu->workshopMenuBase->Invoke("HidePerkPanels");
 
-						(*RE::Workshop::CurrentRow)++;
+						(*RE::Workshop::GetCurrentRow())++;
 
 						menu->CheckAndSetItemForPlacement();
 						menu->UpdateButtonText();
 
-						if (auto& handle = *RE::Workshop::PlacementItem)
+						if (auto& handle = *RE::Workshop::GetPlacementItem())
 						{
 							if (m_frameRefr && m_frameRefr->inventoryList)
 							{

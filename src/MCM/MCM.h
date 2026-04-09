@@ -8,7 +8,7 @@ namespace MCM
 		class General
 		{
 		public:
-			inline static REX::INI::Bool bAutoAutoReturn{ "General", "bAutoAutoReturn", true };
+			inline static REX::TIniSetting<bool> bAutoAutoReturn{ "General", "bAutoAutoReturn", true };
 		};
 
 		class Formatting
@@ -33,7 +33,7 @@ namespace MCM
 				GetTranslationStrings();
 			}
 
-			const auto ini = REX::INI::SettingStore::GetSingleton();
+			const auto ini = REX::FIniSettingStore::GetSingleton();
 			ini->Init(
 				"Data/MCM/Config/BakaPowerArmorStorage/settings.ini",
 				"Data/MCM/Settings/BakaPowerArmorStorage.ini");
