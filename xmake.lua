@@ -31,7 +31,3 @@ target("BakaPowerArmorStorage")
 
     -- add extra files
     add_extrafiles(".clang-format")
-
-    -- add install files
-    add_installfiles("res/Interface/*.swf", { prefixdir = "Interface" })
-    add_installfiles("res/MCM/**.*",        { prefixdir = "MCM/config/BakaPowerArmorStorage" })
