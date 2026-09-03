@@ -1,0 +1,15 @@
+{
+    "modName": "BakaPowerArmorStorage",
+    "keybinds": [
+        {
+            "id": "ModifierKey",
+            "desc": "Modifier Key",
+            "action": {
+                "type": "CallGlobalFunction",
+                "script": "BakaPowerArmorStorage",
+                "function": "FunctionStub",
+                "params": []
+            }
+        }
+    ]
+}

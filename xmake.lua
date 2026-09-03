@@ -18,6 +18,8 @@ set_config("commonlib_json", true)
 
 -- define targets
 target("BakaPowerArmorStorage")
+    add_deps("BakaPowerArmorStorage.papyrus", { order = true })
+
     add_rules("commonlibf4.plugin", {
         name = "BakaPowerArmorStorage",
         author = "shad0wshayd3"
@@ -31,3 +33,13 @@ target("BakaPowerArmorStorage")
 
     -- add extra files
     add_extrafiles(".clang-format")
+
+    -- add install files
+    add_installfiles("res/(**)")
+
+target("BakaPowerArmorStorage.papyrus")
+    add_rules("commonlibf4.papyrus", {
+        install = "BakaPowerArmorStorage"
+    })
+
+    add_extrafiles("res/Scripts/Source/Baka/(**.psc)")

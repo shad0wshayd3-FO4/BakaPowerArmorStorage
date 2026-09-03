@@ -1,0 +1,45 @@
+{
+	"modName": "BakaPowerArmorStorage",
+	"displayName": "$BakaPAS_Page_Title",
+	"pluginRequirements": [
+		"BakaPowerArmorStorage.esm"
+	],
+	"content": [
+		{
+			"type": "image",
+			"libName": "BakaPowerArmorStorage",
+			"className": "header",
+			"width": 770,
+			"height": 450
+		}
+	],
+	"pages": [
+		{
+			"pageDisplayName": "$BakaPAS_Page_General",
+			"content": [
+				{
+					"type": "section",
+					"text": "$BakaPAS_Header_Settings"
+				},
+				{
+					"type": "switcher",
+					"text": "$BakaPAS_Text_AutoAutoReturn",
+					"help": "$BakaPAS_Help_AutoAutoReturn",
+					"valueOptions": {
+						"sourceType": "ModSettingBool"
+					},
+					"id": "bAutoAutoReturn:General"
+				},
+				{
+					"type": "hotkey",
+					"text": "$BakaPAS_Text_ModifierKey",
+					"help": "$BakaPAS_Help_ModifierKey",
+					"valueOptions": {
+						"allowModifierKeys": false
+					},
+					"id": "ModifierKey"
+				}
+			]
+		}
+	]
+}
